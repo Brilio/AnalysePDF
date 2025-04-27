@@ -1,16 +1,19 @@
 import React from 'react';
 import { Pattern } from '../../types';
+import { Edit, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
 
 interface PatternTableProps {
   patterns: Pattern[];
   onPatternUpdate: (pattern: Pattern) => void;
   onPatternDelete: (patternId: string) => void;
+  onPatternEdit: (pattern: Pattern) => void;
 }
 
 export const PatternTable: React.FC<PatternTableProps> = ({
   patterns,
   onPatternUpdate,
-  onPatternDelete
+  onPatternDelete,
+  onPatternEdit
 }) => {
   return (
     <div className="overflow-x-auto">
@@ -38,18 +41,29 @@ export const PatternTable: React.FC<PatternTableProps> = ({
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button
-                  onClick={() => onPatternUpdate({ ...pattern, isActive: !pattern.isActive })}
-                  className="text-indigo-600 hover:text-indigo-900 mr-4"
-                >
-                  {pattern.isActive ? 'Désactiver' : 'Activer'}
-                </button>
-                <button
-                  onClick={() => onPatternDelete(pattern.id)}
-                  className="text-red-600 hover:text-red-900"
-                >
-                  Supprimer
-                </button>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => onPatternEdit(pattern)}
+                    className="text-blue-600 hover:text-blue-800"
+                    title="Modifier"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => onPatternUpdate({ ...pattern, isActive: !pattern.isActive })}
+                    className={`${pattern.isActive ? 'text-green-600 hover:text-green-800' : 'text-gray-400 hover:text-gray-600'}`}
+                    title={pattern.isActive ? 'Désactiver' : 'Activer'}
+                  >
+                    {pattern.isActive ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
+                  </button>
+                  <button
+                    onClick={() => onPatternDelete(pattern.id)}
+                    className="text-red-600 hover:text-red-800"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

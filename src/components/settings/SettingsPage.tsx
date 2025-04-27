@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pattern, PatternFormData } from '../../types';
 import { PatternTable } from './PatternTable';
 import { PatternForm } from './PatternForm';
+import { PatternEditModal } from './PatternEditModal';
 import { Settings } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {
@@ -23,6 +24,8 @@ export const SettingsPage: React.FC = () => {
       }
     }
   ]);
+
+  const [editingPattern, setEditingPattern] = useState<Pattern | null>(null);
 
   const handlePatternUpdate = async (updatedPattern: Pattern) => {
     setPatterns(prev =>
@@ -82,9 +85,19 @@ export const SettingsPage: React.FC = () => {
             patterns={patterns}
             onPatternUpdate={handlePatternUpdate}
             onPatternDelete={handlePatternDelete}
+            onPatternEdit={setEditingPattern}
           />
         </div>
       </div>
+
+      {editingPattern && (
+        <PatternEditModal
+          pattern={editingPattern}
+          isOpen={true}
+          onClose={() => setEditingPattern(null)}
+          onSave={handlePatternUpdate}
+        />
+      )}
     </div>
   );
 };

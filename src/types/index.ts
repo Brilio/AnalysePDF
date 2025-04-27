@@ -10,22 +10,19 @@ export interface ExtractedData {
   fileName: string;
 }
 
-export interface Pattern {
-  id: string;
-  name: string;
-  confidence: number;
-  data: Record<string, string | number>;
-  description?: string;
-  isActive?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  regexPatterns?: Record<string, string>;
-}
-
 export interface PatternFormData {
   name: string;
   description: string;
-  regexPatterns: Record<string, string>;
+  regexPatterns?: Record<string, string | RegExp>;
+}
+
+export interface Pattern extends PatternFormData {
+  id: string;
+  confidence: number;
+  data: Record<string, string | number>;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type WorkflowStep = 'upload' | 'analyze' | 'normalize' | 'export' | 'settings';

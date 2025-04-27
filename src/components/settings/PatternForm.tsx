@@ -1,44 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { PatternFormData } from '../../types';
+import { Pattern, PatternFormData } from '../../types';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-json';
 import 'prismjs/themes/prism.css';
+import { DEFAULT_REGEX_PATTERNS } from '../../constants/patterns';
 
 interface PatternFormProps {
   onSubmit: (formData: PatternFormData) => void;
-  initialData?: PatternFormData;
+  initialData?: Pattern;
+  mode: 'create' | 'edit';
 }
-
-const defaultRegexPatterns = {
-  "Invoice Number": "(?:facture|invoice)[^\\d]*(\\d+)",
-  "Date": "date\\s*:\\s*(\\d{1,2}[\\/\\.\\-]\\d{1,2}[\\/\\.\\-]\\d{2,4})",
-  "Amount": "(?:montant|amount|total)[^\\d]*(\\d+(?:[:,.]\\d+)?)",
-  "Client": "(?:client|customer)[^\\w]*([\\w\\s]+)(?:\\n|$)"
-};
 
 export const PatternForm: React.FC<PatternFormProps> = ({ 
   onSubmit,
-  initialData 
+  initialData,
+  mode 
 }) => {
-  const [formData, setFormData] = useState<PatternFormData>(() => 
-    initialData || {
-      name: '',
-      description: '',
-      regexPatterns: defaultRegexPatterns
-    }
-  );
+  const [formData, setFormData] = useState<PatternFormData>(() => ({
+    name: initialData?.name || '',
+    description: initialData?.description || '',
+    regexPatterns: initialData?.regexPatterns || DEFAULT_REGEX_PATTERNS
+  }));
 
   const [regexJson, setRegexJson] = useState<string>(() =>
-    JSON.stringify(initialData?.regexPatterns || defaultRegexPatterns, null, 2)
+    JSON.stringify(initialData?.regexPatterns || DEFAULT_REGEX_PATTERNS, null, 2)
   );
   
   const [jsonError, setJsonError] = useState<string>('');
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
-      setRegexJson(JSON.stringify(initialData.regexPatterns, null, 2));
+      setFormData({
+        name: initialData.name,
+        description: initialData.description || '',
+        regexPatterns: initialData.regexPatterns || DEFAULT_REGEX_PATTERNS
+      });
+      setRegexJson(JSON.stringify(initialData.regexPatterns || DEFAULT_REGEX_PATTERNS, null, 2));
     }
   }, [initialData]);
 
@@ -61,13 +59,13 @@ export const PatternForm: React.FC<PatternFormProps> = ({
     e.preventDefault();
     if (validateAndUpdateJson(regexJson)) {
       onSubmit(formData);
-      if (!initialData) {
+      if (mode === 'create') {
         setFormData({
           name: '',
           description: '',
-          regexPatterns: defaultRegexPatterns
+          regexPatterns: DEFAULT_REGEX_PATTERNS
         });
-        setRegexJson(JSON.stringify(defaultRegexPatterns, null, 2));
+        setRegexJson(JSON.stringify(DEFAULT_REGEX_PATTERNS, null, 2));
       }
     }
   };
@@ -141,7 +139,7 @@ export const PatternForm: React.FC<PatternFormProps> = ({
               : 'bg-indigo-600 hover:bg-indigo-700'
           }`}
         >
-          {initialData ? 'Enregistrer les modifications' : 'Créer le pattern'}
+          {mode === 'edit' ? 'Enregistrer les modifications' : 'Créer le pattern'}
         </button>
       </div>
     </form>

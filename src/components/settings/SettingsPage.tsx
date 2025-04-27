@@ -4,6 +4,7 @@ import { PatternTable } from './PatternTable';
 import { PatternForm } from './PatternForm';
 import { PatternEditModal } from './PatternEditModal';
 import { Settings } from 'lucide-react';
+import { DEFAULT_REGEX_PATTERNS } from '../../constants/patterns';
 
 export const SettingsPage: React.FC = () => {
   const [patterns, setPatterns] = useState<Pattern[]>([
@@ -16,12 +17,7 @@ export const SettingsPage: React.FC = () => {
       createdAt: '2024-01-01',
       updatedAt: '2024-01-01',
       data: {},
-      regexPatterns: {
-        invoiceNumber: '(?:facture|invoice)[^\\d]*(\\d+)',
-        date: 'date\\s*:\\s*(\\d{1,2}[\\/\\.-]\\d{1,2}[\\/\\.-]\\d{2,4})',
-        amount: '(?:montant|amount|total)[^\\d]*(\\d+(?:[,.]\\d+)?)',
-        client: '(?:client|customer)[^\\w]*([\\w\\s]+)(?:\\n|$)'
-      }
+      regexPatterns: DEFAULT_REGEX_PATTERNS
     }
   ]);
 
@@ -71,7 +67,7 @@ export const SettingsPage: React.FC = () => {
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               Créer un nouveau pattern
             </h2>
-            <PatternForm onSubmit={handlePatternCreate} />
+            <PatternForm onSubmit={handlePatternCreate} mode="create" />
           </div>
         </div>
       </div>

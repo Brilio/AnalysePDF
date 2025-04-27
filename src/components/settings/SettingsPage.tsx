@@ -17,7 +17,8 @@ export const SettingsPage: React.FC = () => {
       confidence: 0.75,
       isActive: true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      data: {}
     });
   };
 

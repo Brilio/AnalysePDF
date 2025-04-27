@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Form, Input, InputNumber } from 'antd';
 import { Pattern, CreatePatternInput } from '../../../types';
+import { RegexPatternsForm } from './regex/RegexPatternsForm';
 
 interface PatternFormProps {
   initialValues?: Pattern;
@@ -52,6 +53,13 @@ export const PatternForm: React.FC<PatternFormProps> = ({
         ]}
       >
         <InputNumber min={0} max={100} style={{ width: '100%' }} />
+      </Form.Item>
+
+      <Form.Item
+        name="regexPatterns"
+        label="Expressions régulières"
+      >
+        <RegexPatternsForm />
       </Form.Item>
 
       <Form.Item>

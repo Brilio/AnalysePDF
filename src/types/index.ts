@@ -30,6 +30,7 @@ export interface Pattern {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  data: Record<string, any>;
 }
 
 export interface CreatePatternInput {
@@ -39,3 +40,10 @@ export interface CreatePatternInput {
 }
 
 export type WorkflowStep = 'upload' | 'analyze' | 'normalize' | 'export' | 'settings';
+
+export interface NormalizedData {
+  id: string;
+  fields: Record<string, string>;
+  isValidated: boolean;
+  source: string;
+}

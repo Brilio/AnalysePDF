@@ -25,12 +25,12 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({
 }) => {
   return (
     <div className={`border rounded-lg overflow-hidden ${
-      item.validated ? 'border-green-300 bg-green-50' : 'border-gray-300'
+      item.isValidated ? 'border-green-300 bg-green-50' : 'border-gray-300'
     }`}>
       <DocumentHeader
         index={index}
         source={item.source}
-        validated={item.validated}
+        validated={item.isValidated}
         isExpanded={isExpanded}
         onValidation={() => onValidation(item.id)}
         onToggleExpand={() => onToggleExpand(item.id)}
@@ -38,7 +38,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({
       
       <div className="p-4">
         <DocumentFields
-          data={item.data}
+          data={item.fields}
           onDataChange={(field, value) => onDataChange(item.id, field, value)}
         />
         

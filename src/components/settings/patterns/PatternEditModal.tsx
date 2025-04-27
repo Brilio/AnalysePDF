@@ -31,15 +31,25 @@ export const PatternEditModal: React.FC<PatternEditModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
-        <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <PatternEditModalHeader onClose={onClose} />
-            <PatternForm
-              initialValues={pattern}
-              onSubmit={handleSubmit}
-              onCancel={onClose}
-            />
+        <div 
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+          onClick={onClose} 
+        />
+        
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div className="w-[90vw] transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
+              <div className="max-h-[85vh] overflow-y-auto">
+                <div className="bg-white px-6 py-4">
+                  <PatternEditModalHeader onClose={onClose} />
+                  <PatternForm
+                    initialValues={pattern}
+                    onSubmit={handleSubmit}
+                    onCancel={onClose}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

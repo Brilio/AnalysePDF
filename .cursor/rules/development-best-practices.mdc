@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Development Best Practices:
+	•	Single Responsibility: Each file must be dedicated to a single, clear responsibility, following the “Single Responsibility Principle (SRP).” This improves code readability, maintainability, and testability.
+	•	Limited File Size: A file should not exceed 100 lines of code. This encourages the creation of small, well-organized, and reusable components, functions, and modules.
+	•	Modularity and Clarity: By splitting the project into small, specialized files, the code remains easier to understand for the entire team and reduces the risk of errors or complex dependencies.
+	•	Code Review and Scalability: These practices make code reviews more efficient and allow the project to evolve quickly without compromising its stability.

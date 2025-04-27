@@ -1,4 +1,6 @@
-export const DEFAULT_REGEX_PATTERNS = {
+import { RegexPatterns } from '../types';
+
+export const DEFAULT_REGEX_PATTERNS: RegexPatterns = {
     "Invoice Information": {
       "Invoice Number": "(?:facture|invoice|num[eé]ro|bill)[^\\d]*(\\d+)",
       "Invoice Date": "(?:date|issued on)[^\\d]*(\\d{1,2}[\\/\\.\\-]\\d{1,2}[\\/\\.\\-]\\d{2,4})",

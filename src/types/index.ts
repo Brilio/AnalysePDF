@@ -1,3 +1,9 @@
+export type RegexPatterns = {
+  [category: string]: {
+    [pattern: string]: string;
+  };
+};
+
 export interface FileWithPreview extends File {
   preview: string;
 }
@@ -13,16 +19,23 @@ export interface ExtractedData {
 export interface PatternFormData {
   name: string;
   description: string;
-  regexPatterns?: Record<string, string | RegExp>;
+  regexPatterns?: RegexPatterns;
 }
 
-export interface Pattern extends PatternFormData {
+export interface Pattern {
   id: string;
+  name: string;
+  description: string;
   confidence: number;
-  data: Record<string, string | number>;
-  isActive?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreatePatternInput {
+  name: string;
+  description: string;
+  confidence: number;
 }
 
 export type WorkflowStep = 'upload' | 'analyze' | 'normalize' | 'export' | 'settings';

@@ -1,11 +1,11 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-interface ModalHeaderProps {
+interface PatternEditModalHeaderProps {
   onClose: () => void;
 }
 
-export const ModalHeader: React.FC<ModalHeaderProps> = ({ onClose }) => {
+export const PatternEditModalHeader: React.FC<PatternEditModalHeaderProps> = ({ onClose }) => {
   return (
     <div className="flex justify-between items-center p-6 border-b">
       <h2 className="text-xl font-semibold text-gray-900">
@@ -19,4 +19,4 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({ onClose }) => {
       </button>
     </div>
   );
-};
+}; 

@@ -37,7 +37,7 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
     >
       {step.icon}
       <span className={`ml-2 text-sm font-medium hidden md:inline-block ${
-        isActive ? 'text-blue-600' : isPast ? 'text-blue-500' : 'text-gray-500'
+        isActive ? 'text-white' : isPast ? 'text-blue-500' : 'text-gray-500'
       }`}>
         {step.label}
       </span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, FileSearch, Database, FileOutput } from 'lucide-react';
+import { FileText, FileSearch, Database, FileOutput, Settings } from 'lucide-react';
 import { WorkflowStep as WorkflowStepType } from '../../types';
 import { WorkflowStep } from './WorkflowStep';
 
@@ -47,27 +47,41 @@ export const WorkflowHeader: React.FC<WorkflowHeaderProps> = ({
             AnalysePDF
           </h1>
 
-          <nav>
-            <ol className="flex items-center space-x-2 md:space-x-4">
-              {steps.map((step, index) => (
-                <li key={step.id} className="flex items-center">
-                  {index > 0 && (
-                    <div className={`h-px w-8 md:w-12 mr-2 md:mr-4 ${
-                      index <= currentStepIndex ? 'bg-blue-500' : 'bg-gray-300'
-                    }`} />
-                  )}
-                  
-                  <WorkflowStep
-                    step={step}
-                    isActive={currentStep === step.id}
-                    isPast={currentStepIndex >= index}
-                    isProcessing={isProcessing}
-                    onClick={() => onStepClick(step.id)}
-                  />
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <div className="flex items-center space-x-6">
+            <nav>
+              <ol className="flex items-center space-x-2 md:space-x-4">
+                {steps.map((step, index) => (
+                  <li key={step.id} className="flex items-center">
+                    {index > 0 && (
+                      <div className={`h-px w-8 md:w-12 mr-2 md:mr-4 ${
+                        index <= currentStepIndex ? 'bg-blue-500' : 'bg-gray-300'
+                      }`} />
+                    )}
+                    
+                    <WorkflowStep
+                      step={step}
+                      isActive={currentStep === step.id}
+                      isPast={currentStepIndex >= index}
+                      isProcessing={isProcessing}
+                      onClick={() => onStepClick(step.id)}
+                    />
+                  </li>
+                ))}
+              </ol>
+            </nav>
+
+            <button
+              onClick={() => onStepClick('settings')}
+              className={`p-2 rounded-full transition-colors ${
+                currentStep === 'settings'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+              title="Paramètres"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </header>

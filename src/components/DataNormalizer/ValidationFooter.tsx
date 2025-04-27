@@ -1,14 +1,14 @@
 import React from 'react';
 import { AlertTriangle, Check } from 'lucide-react';
 
-interface ValidationStatusProps {
+interface ValidationFooterProps {
   allValidated: boolean;
-  onContinue: () => void;
+  onComplete: () => void;
 }
 
-export const ValidationStatus: React.FC<ValidationStatusProps> = ({
+export const ValidationFooter: React.FC<ValidationFooterProps> = ({
   allValidated,
-  onContinue
+  onComplete
 }) => {
   return (
     <div className="mt-8 flex items-center justify-between">
@@ -28,7 +28,7 @@ export const ValidationStatus: React.FC<ValidationStatusProps> = ({
       </div>
       
       <button
-        onClick={onContinue}
+        onClick={onComplete}
         disabled={!allValidated}
         className={`px-4 py-2 rounded-md font-medium ${
           allValidated

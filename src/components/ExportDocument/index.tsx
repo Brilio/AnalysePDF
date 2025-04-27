@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NormalizedData } from '../../types';
 import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
 import { ExportFormatSelector } from './ExportFormatSelector';
 import { DataSummary } from './DataSummary';
 import { SuccessMessage } from './SuccessMessage';

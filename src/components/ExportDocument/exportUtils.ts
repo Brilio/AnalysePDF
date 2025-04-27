@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { NormalizedData } from '../../types';
 
 export const exportToJson = async (normalizedData: NormalizedData[]) => {
@@ -21,24 +21,55 @@ export const exportToJson = async (normalizedData: NormalizedData[]) => {
 };
 
 export const exportToExcel = async (normalizedData: NormalizedData[]) => {
-  const worksheet = XLSX.utils.json_to_sheet(
-    normalizedData.map(item => ({
-      Source: item.source,
+  const workbook = new ExcelJS.Workbook();
+  
+  // Add main data sheet
+  const worksheet = workbook.addWorksheet('Données Certifiées');
+  
+  // Get all unique keys from the data
+  const allKeys = new Set<string>();
+  normalizedData.forEach(item => {
+    Object.keys(item.data).forEach(key => allKeys.add(key));
+  });
+  
+  // Set up columns
+  const columns = [
+    { header: 'Source', key: 'source' },
+    ...Array.from(allKeys).map(key => ({ header: key, key })),
+    { header: 'CertificationId', key: 'certificationId' },
+    { header: 'CertificationDate', key: 'certificationDate' }
+  ];
+  worksheet.columns = columns;
+  
+  // Add data rows
+  normalizedData.forEach(item => {
+    worksheet.addRow({
+      source: item.source,
       ...item.data,
-      CertificationId: `PDF-${Date.now()}`,
-      CertificationDate: new Date().toLocaleDateString()
-    }))
-  );
+      certificationId: `PDF-${Date.now()}`,
+      certificationDate: new Date().toLocaleDateString()
+    });
+  });
   
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Données Certifiées");
+  // Add certification sheet
+  const certSheet = workbook.addWorksheet('Certification');
+  certSheet.columns = [
+    { header: 'Certification', key: 'certification' },
+    { header: 'Timestamp', key: 'timestamp' },
+    { header: 'DocumentCount', key: 'documentCount' }
+  ];
+  certSheet.addRow({
+    certification: 'Document Certifié',
+    timestamp: new Date().toISOString(),
+    documentCount: normalizedData.length
+  });
   
-  const certSheet = XLSX.utils.json_to_sheet([{
-    Certification: "Document Certifié",
-    Timestamp: new Date().toISOString(),
-    DocumentCount: normalizedData.length
-  }]);
-  XLSX.utils.book_append_sheet(workbook, certSheet, "Certification");
+  // Style improvements
+  worksheet.getRow(1).font = { bold: true };
+  certSheet.getRow(1).font = { bold: true };
   
-  XLSX.writeFile(workbook, `données_extraites_certifiées_${Date.now()}.xlsx`);
+  // Generate and save file
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(blob, `données_extraites_certifiées_${Date.now()}.xlsx`);
 };
